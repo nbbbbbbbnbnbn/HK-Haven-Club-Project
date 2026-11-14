@@ -1,46 +1,98 @@
 extends CharacterBody2D
 
-@export var walk_speed: float = 200.0
-@export var launch_power: float = 600.0
+@export var walk_speed: float = 300.0          # Walk speed is 300
+@export var min_launch_power: float = 300.0  # Minimum launch speed on a quick click
+@export var max_launch_power: float = 1000.0 # Maximum launch speed cap
+@export var charge_speed: float = 1200.0     # How fast the power builds up while holding click
+@export var roll_friction: float = 180.0
+@export var launch_cooldown: float = 10.0    # 15 seconds cooldown for the launch
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var arrow: Node2D = $Node2D
 
 var is_curled: bool = false
 var is_charging: bool = false
-var charge_vector: Vector2 = Vector2.ZERO
+var current_launch_power: float = 0.0
+var cooldown_timer: float = 0.0
 
 func _physics_process(delta: float) -> void:
-	# 1. TOGGLE CURL STATE (Holding space or left click)
+	
+	# Decrease the cooldown timer every frame if it's running
+	if cooldown_timer > 0:
+		cooldown_timer -= delta
+	
+	# 1. SPACEBAR: CURL / UN-CURL TOGGLE STATE
 	if Input.is_action_pressed("curl"):
 		is_curled = true
+	
+	# 2. LEFT CLICK: AIMING & CHARGING LAUNCH (Only allowed if cooldown is finished!)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and cooldown_timer <= 0:
+		if not is_charging:
+			is_charging = true
+			is_curled = true # Automatically curl up when you start charging a launch
+			current_launch_power = min_launch_power
+			
+		arrow.visible = true
+		arrow.look_at(get_global_mouse_position())
+		
+		# Freeze movement while charging up your shot
+		velocity = Vector2.ZERO
+		
+		# Increase launch power the longer you hold click, capped at max_launch_power
+		current_launch_power += charge_speed * delta
+		current_launch_power = min(current_launch_power, max_launch_power)
+		
 	else:
-		is_curled = false
+		arrow.visible = false
+		
+		# If we WERE charging and just released the click, LAUNCH!
+		if is_charging:
+			is_charging = false
+			var mouse_pos = get_global_mouse_position()
+			var launch_dir = (mouse_pos - global_position).normalized()
+			
+			# Send the roly-poly flying using the accumulated charge power
+			velocity = launch_dir * current_launch_power
+			
+			# Start the 15-second cooldown timer!
+			cooldown_timer = launch_cooldown
 
-	# 2. MOVEMENT LOGIC BASED ON STATE
-	if not is_curled:
-		# NORMAL WALKING (Uncurled)
+	# 3. STATE-BASED MOVEMENT & GRAVITY
+	if is_curled:
+		# ==========================
+		# ROLLED UP / AIRBORNE STATE
+		# ==========================
+		# Apply gravity so it arcs through the air and sticks to slopes
+		if not is_on_floor():
+			velocity += get_gravity() * 1.5 * delta
+		else:
+			# Coast with friction when rolling on the floor
+			velocity.x = move_toward(velocity.x, 0.0, roll_friction * delta)
+			
+			# Uncurl when you release spacebar AND have slowed down safely on the ground
+			if not Input.is_action_pressed("curl") and not is_charging and velocity.length() < 10.0:
+				is_curled = false
+				
+	else:
+		# ==========================
+		# NORMAL WALKING STATE
+		# ==========================
 		var input_dir := Input.get_vector("move_left", "move_right", "ui_up", "ui_down")
 		velocity.x = input_dir.x * walk_speed
 		
-		# Apply gravity if airborne
+		# Apply gravity if airborne normally
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-		else:
-			# ROLLED UP (Slopes affect you, keys don't control walking)
-			# Apply stronger gravity/momentum so slopes feel fast and slippery
-			if not is_on_floor():
-				velocity += get_gravity() * 1.5 * delta
-			else:
-				# Add a bit of friction when rolling on flat ground
-				velocity.x = move_toward(velocity.x, 0.0, 10.0)
 			
-		move_and_slide()
 		handle_movement_animation(input_dir)
-	
+
+	# 4. Apply physics movement
+	move_and_slide()
+
 func handle_movement_animation(dir):
-	
-	if dir == Vector2(1,0):
+	if dir == Vector2(1, 0):
 		animated_sprite.play("move right")
-	elif dir == Vector2(-1,0):
+	elif dir == Vector2(-1, 0):
 		pass # move left
 	else:
 		animated_sprite.pause()

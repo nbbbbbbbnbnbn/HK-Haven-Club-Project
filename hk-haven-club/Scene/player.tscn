@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://da7digmk53h28"]
+[gd_scene load_steps=9 format=3 uid="uid://da7digmk53h28"]
 
 [ext_resource type="Script" uid="uid://4nf8dbmxm5rm" path="res://Scene/player.gd" id="1_y8w33"]
-[ext_resource type="Texture2D" uid="uid://2k4741cqfrnt" path="res://Assets/rolypoly.png" id="2_y8w33"]
+[ext_resource type="Texture2D" uid="uid://2k4741cqfrnt" path="res://Assets/rolypolyRight.png" id="2_y8w33"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xa75v"]
 atlas = ExtResource("2_y8w33")
@@ -29,20 +29,37 @@ animations = [{
 radius = 4.0529275
 height = 13.670636
 
+[sub_resource type="QuadMesh" id="QuadMesh_y8w33"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_y8w33"]
+
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(5.428175, 5.428175)
+scale = Vector2(3.9289262, 3.9289262)
 script = ExtResource("1_y8w33")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.8422397, -5.5267196)
 sprite_frames = SubResource("SpriteFrames_ivevv")
 animation = &"move right"
-frame_progress = 0.21094514
+frame_progress = 0.3270957
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.6580158, 4.0529275)
 rotation = 1.5707964
 scale = Vector2(1.8596728, 1.8596728)
 shape = SubResource("CapsuleShape2D_r6jsd")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Node2D"]
+position = Vector2(37.950138, 0)
+scale = Vector2(13.184615, 4.2815146)
+mesh = SubResource("QuadMesh_y8w33")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Node2D"]
+position = Vector2(48.81936, 0)
+rotation = -1.5707964
+scale = Vector2(8.727193, 8.727193)
+mesh = SubResource("PrismMesh_y8w33")

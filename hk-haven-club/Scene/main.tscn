@@ -20,11 +20,6 @@ physics_layer_0/collision_layer = 1
 
 [node name="Main" type="Node2D"]
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(1028, 823.00006)
-scale = Vector2(6.4901395, 6.4901395)
-texture = ExtResource("1_sblpm")
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
@@ -55,3 +50,9 @@ position = Vector2(577, 1146)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_sblpm")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(1025, 812.99994)
+scale = Vector2(6.6160727, 6.6160727)
+texture = ExtResource("1_sblpm")
