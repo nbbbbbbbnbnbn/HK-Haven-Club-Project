@@ -34,7 +34,7 @@ height = 13.670636
 [sub_resource type="PrismMesh" id="PrismMesh_y8w33"]
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(3.9289262, 3.9289262)
+scale = Vector2(4.502592, 4.502592)
 script = ExtResource("1_y8w33")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
