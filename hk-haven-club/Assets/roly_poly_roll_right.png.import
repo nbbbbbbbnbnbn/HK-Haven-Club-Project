@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu12biw07ru0a"
-path="res://.godot/imported/spritepaint-2.png-9b2cbd42f63100ebe32e780df67c4e64.ctex"
+uid="uid://crkshhdgkeira"
+path="res://.godot/imported/roly_poly_roll_right.png-2a5ba51dbe848147a7c4d6994a7c33aa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/spritepaint-2.png"
-dest_files=["res://.godot/imported/spritepaint-2.png-9b2cbd42f63100ebe32e780df67c4e64.ctex"]
+source_file="res://Assets/roly_poly_roll_right.png"
+dest_files=["res://.godot/imported/roly_poly_roll_right.png-2a5ba51dbe848147a7c4d6994a7c33aa.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5xjhr87o2sx5"
-path="res://.godot/imported/background.jpeg-bdcc741f86f33567f2a770ed92f59f63.ctex"
+uid="uid://cu12biw07ru0a"
+path="res://.godot/imported/Level Tile Map.png-76e13bfb960150f40b5ecf3678d461cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/background.jpeg"
-dest_files=["res://.godot/imported/background.jpeg-bdcc741f86f33567f2a770ed92f59f63.ctex"]
+source_file="res://Assets/Level Tile Map.png"
+dest_files=["res://.godot/imported/Level Tile Map.png-76e13bfb960150f40b5ecf3678d461cc.ctex"]
 
 [params]
 
