@@ -1,7 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://da7digmk53h28"]
+[gd_scene load_steps=12 format=3 uid="uid://da7digmk53h28"]
 
 [ext_resource type="Script" uid="uid://4nf8dbmxm5rm" path="res://Scene/player.gd" id="1_y8w33"]
+[ext_resource type="Texture2D" uid="uid://dc76padgmyjty" path="res://Assets/roly_poly_left.png" id="2_xa75v"]
 [ext_resource type="Texture2D" uid="uid://2k4741cqfrnt" path="res://Assets/rolypolyRight.png" id="2_y8w33"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivevv"]
+atlas = ExtResource("2_xa75v")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6jsd"]
+atlas = ExtResource("2_xa75v")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xa75v"]
 atlas = ExtResource("2_y8w33")
@@ -13,6 +22,17 @@ region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ivevv"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivevv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6jsd")
+}],
+"loop": true,
+"name": &"move left",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xa75v")
@@ -40,8 +60,7 @@ script = ExtResource("1_y8w33")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.8422397, -5.5267196)
 sprite_frames = SubResource("SpriteFrames_ivevv")
-animation = &"move right"
-frame_progress = 0.3270957
+animation = &"move left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5707964

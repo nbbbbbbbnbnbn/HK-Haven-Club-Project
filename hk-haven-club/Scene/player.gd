@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 @export var walk_speed: float = 300.0          # Walk speed is 300
 @export var min_launch_power: float = 300.0  # Minimum launch speed on a quick click
-@export var max_launch_power: float = 1000.0 # Maximum launch speed cap
-@export var charge_speed: float = 1200.0     # How fast the power builds up while holding click
-@export var roll_friction: float = 180.0
-@export var launch_cooldown: float = 10.0    # 15 seconds cooldown for the launch
+@export var max_launch_power: float = 1500.0 # Maximum launch speed cap
+@export var charge_speed: float = 1200.0    # How fast the power builds up while holding click
+@export var roll_friction: float = 100.0     # Lowered friction so it keeps momentum longer
+@export var roll_acceleration: float = 1900.0 # Much higher acceleration for faster rolling
+@export var launch_cooldown: float = 5.0     # 5 seconds cooldown for the launch
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var arrow: Node2D = $Node2D
@@ -54,7 +55,7 @@ func _physics_process(delta: float) -> void:
 			# Send the roly-poly flying using the accumulated charge power
 			velocity = launch_dir * current_launch_power
 			
-			# Start the 15-second cooldown timer!
+			# Start the 5-second cooldown timer!
 			cooldown_timer = launch_cooldown
 
 	# 3. STATE-BASED MOVEMENT & GRAVITY
@@ -62,12 +63,21 @@ func _physics_process(delta: float) -> void:
 		# ==========================
 		# ROLLED UP / AIRBORNE STATE
 		# ==========================
-		# Apply gravity so it arcs through the air and sticks to slopes
 		if not is_on_floor():
-			velocity += get_gravity() * 1.5 * delta
+			# Apply heavy gravity so it arcs fast through the air
+			velocity += get_gravity() * 1.8 * delta
 		else:
-			# Coast with friction when rolling on the floor
-			velocity.x = move_toward(velocity.x, 0.0, roll_friction * delta)
+			# Get the angle of the slope we are standing on
+			var floor_normal = get_floor_normal()
+			var slope_direction = Vector2(floor_normal.y, -floor_normal.x)
+			
+			# If we are on a slope, accelerate rapidly downwards and add gravity weight
+			if abs(floor_normal.x) > 0.1:
+				velocity += slope_direction * -sign(floor_normal.x) * roll_acceleration * delta
+				velocity += get_gravity() * 0.8 * delta # Pulls you down the hill faster
+			else:
+				# Apply light friction when on completely flat ground
+				velocity.x = move_toward(velocity.x, 0.0, roll_friction * delta)
 			
 			# Uncurl when you release spacebar AND have slowed down safely on the ground
 			if not Input.is_action_pressed("curl") and not is_charging and velocity.length() < 10.0:
@@ -87,12 +97,13 @@ func _physics_process(delta: float) -> void:
 		handle_movement_animation(input_dir)
 
 	# 4. Apply physics movement
+	floor_max_angle = deg_to_rad(60.0) # Allows walking up slopes up to 60 degrees
 	move_and_slide()
 
 func handle_movement_animation(dir):
 	if dir == Vector2(1, 0):
 		animated_sprite.play("move right")
 	elif dir == Vector2(-1, 0):
-		pass # move left
+		animated_sprite.play("move left")
 	else:
 		animated_sprite.pause()
