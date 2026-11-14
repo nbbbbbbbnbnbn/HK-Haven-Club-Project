@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://13oy0q7lbq8n"]
+
+[ext_resource type="Texture2D" uid="uid://b5xjhr87o2sx5" path="res://Assets/background.jpeg" id="1_sblpm"]
+[ext_resource type="PackedScene" uid="uid://da7digmk53h28" path="res://Scene/player.tscn" id="2_r34rm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wwxx"]
+size = Vector2(18.900066, 69.76082)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3amdw"]
+size = Vector2(75, 182)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xcnr"]
+size = Vector2(200.3031, 37.424225)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ow1sv"]
+size = Vector2(1161, 190)
+
+[sub_resource type="TileSet" id="TileSet_sblpm"]
+physics_layer_0/collision_layer = 1
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(1028, 823.00006)
+scale = Vector2(6.4901395, 6.4901395)
+texture = ExtResource("1_sblpm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(105.57347, 1249.9473)
+scale = Vector2(11.685306, 11.010559)
+shape = SubResource("RectangleShape2D_2wwxx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(258.5, 1544)
+shape = SubResource("RectangleShape2D_3amdw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(599.5, 1587)
+scale = Vector2(2.8906193, 2.244533)
+shape = SubResource("RectangleShape2D_1xcnr")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1471.5, 1540)
+shape = SubResource("RectangleShape2D_ow1sv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(999, 1435)
+build_mode = 1
+polygon = PackedVector2Array(0, 0, 100, -50, 1050, 0, 1050, -100)
+
+[node name="Player" parent="StaticBody2D" instance=ExtResource("2_r34rm")]
+position = Vector2(577, 1146)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_sblpm")
