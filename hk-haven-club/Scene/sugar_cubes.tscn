@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bulvvvd371gea"]
+
+[ext_resource type="Script" uid="uid://56bj8gyx4r0l" path="res://Scene/sugar_cubes.gd" id="1_5luys"]
+[ext_resource type="Texture2D" uid="uid://wqeb521bseke" path="res://Assets/Sugar Cube.png" id="1_hy4b2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5luys"]
+
+[node name="Sugar Cubes" type="Area2D" groups=["sugar_cubes"]]
+scale = Vector2(4.279336, 4.279336)
+script = ExtResource("1_5luys")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("1_hy4b2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.8616218, 0.8616218)
+shape = SubResource("CircleShape2D_5luys")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -133,7 +133,7 @@ script = ExtResource("1_y8w33")
 position = Vector2(1.8422397, -5.5267196)
 sprite_frames = SubResource("SpriteFrames_ivevv")
 animation = &"roll right"
-frame_progress = 0.5601418
+frame_progress = 0.77993363
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5707964
@@ -160,6 +160,7 @@ mesh = SubResource("PrismMesh_y8w33")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 rotation = 1.5707964
+scale = Vector2(1.1191806, 1.1191806)
 shape = SubResource("CapsuleShape2D_ivevv")
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

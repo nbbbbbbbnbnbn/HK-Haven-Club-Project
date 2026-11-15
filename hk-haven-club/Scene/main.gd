@@ -4,20 +4,25 @@ extends Node2D
 @export var enemy_scene: PackedScene = preload("res://Scene/enemy.tscn")
 
 @onready var timer: Timer = $SpawnTimer
+@onready var first4Enemy: = 0
 
 func _ready() -> void:
 	# Randomize the random number generator seed
 	randomize()
 	start_spawn_timer()
 
+
 func start_spawn_timer() -> void:
 	# Pick a random wait time between 5 and 10 seconds
-	var random_time = randf_range(5.0, 10.0)
+	var random_time = 0.001
+	if first4Enemy > 4:
+		random_time = randf_range(2.0, 7.0)
 	
 	# Configure and start the existing Timer node
 	timer.wait_time = random_time
 	timer.one_shot = true
 	timer.start()
+	first4Enemy += 1
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_ant()

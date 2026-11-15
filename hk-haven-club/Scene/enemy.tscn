@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfxslobkrvptn"]
+[gd_scene load_steps=10 format=3 uid="uid://bfxslobkrvptn"]
 
 [ext_resource type="Script" uid="uid://d2bdq4o2rxp3f" path="res://Scene/enemy.gd" id="1_4jekx"]
 [ext_resource type="Texture2D" uid="uid://c6lh7hmbrfghv" path="res://Assets/red_ant_left.png" id="1_yww8s"]
+[ext_resource type="Texture2D" uid="uid://qt56qdytfo52" path="res://Assets/red_ant_right.png" id="3_s685e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4jekx"]
 
@@ -11,6 +12,14 @@ region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s685e"]
 atlas = ExtResource("1_yww8s")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6qjc"]
+atlas = ExtResource("3_s685e")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmi60"]
+atlas = ExtResource("3_s685e")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n6qjc"]
@@ -24,6 +33,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"move left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6qjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmi60")
+}],
+"loop": true,
+"name": &"move right",
 "speed": 5.0
 }]
 
@@ -39,4 +59,4 @@ shape = SubResource("CapsuleShape2D_4jekx")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3.3646183, 3.3646183)
 sprite_frames = SubResource("SpriteFrames_n6qjc")
-animation = &"move left"
+animation = &"move right"
