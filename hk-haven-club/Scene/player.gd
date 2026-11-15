@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export var launch_cooldown: float = 5.0     # 5 seconds cooldown for the launch
 @export var drain_rate:float = 5.0
 @export var sugarEaten = 0
+@export var reset: bool = false
 
 @export var default_max_launch_power: float = 1500.0
 @export var default_charge_speed: float = 1200.0
@@ -68,6 +69,7 @@ func _physics_process(delta: float) -> void:
 		tutorialDone = true
 	
 	if sugarBar.value > 0:
+		gameOverScreen.visible = false
 		# Decrease the cooldown timer every frame if it's running
 		if cooldown_timer > 0:
 			cooldown_timer -= delta
@@ -209,3 +211,13 @@ func havefunFunc():
 	haveFun.visible = true
 	await get_tree().create_timer(2).timeout
 	haveFun.visible = false
+
+
+func _on_retry_button_down() -> void:
+	sugarBar.value = 100
+	position.x = -645.0
+	position.y = 215.0
+	velocity = Vector2.ZERO
+	reset = true
+	await get_tree().create_timer(2).timeout
+	reset = false

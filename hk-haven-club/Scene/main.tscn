@@ -331,7 +331,6 @@ scale = Vector2(11.589893, 11.962932)
 texture = ExtResource("5_3amdw")
 
 [node name="Game over screen" type="Control" parent="CanvasLayer/Control"]
-visible = false
 z_index = 4
 anchors_preset = 0
 offset_right = 40.0
@@ -357,8 +356,17 @@ text = "you ded"
 position = Vector2(1483, 744.00006)
 scale = Vector2(23.043776, 23.043776)
 sprite_frames = SubResource("SpriteFrames_t372l")
-frame_progress = 0.9258681
+frame_progress = 0.64634746
 script = ExtResource("7_c2iwn")
+
+[node name="retry" type="Button" parent="CanvasLayer/Control/Game over screen"]
+layout_mode = 0
+offset_left = 1218.0001
+offset_top = 934.0001
+offset_right = 1306.0001
+offset_bottom = 965.0001
+scale = Vector2(5.486058, 5.486058)
+text = "Play Again"
 
 [node name="Cooldown node" type="Control" parent="CanvasLayer/Control"]
 anchors_preset = 0
@@ -398,6 +406,7 @@ text = "now just survive
 have fun"
 
 [node name="Menu" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -479,4 +488,8 @@ text = "the sugar bar is your health
 and constantly drains"
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="button_down" from="CanvasLayer/Control/Game over screen/retry" to="." method="_on_retry_button_down"]
+[connection signal="button_down" from="CanvasLayer/Control/Game over screen/retry" to="Player" method="_on_retry_button_down"]
+[connection signal="button_down" from="CanvasLayer/Control/Game over screen/retry" to="Enemy" method="_on_retry_button_down"]
+[connection signal="button_down" from="CanvasLayer/Control/Game over screen/retry" to="Sugar Cubes" method="_on_retry_button_down"]
 [connection signal="button_down" from="CanvasLayer/Menu/Button" to="." method="_on_button_button_down"]

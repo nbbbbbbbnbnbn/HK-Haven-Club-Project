@@ -12,6 +12,8 @@ func _ready() -> void:
 	add_to_group("enemies")
 
 func _physics_process(delta: float) -> void:
+	if player.reset:
+		queue_free()
 	# 1. Apply gravity if not on the floor
 	if not is_on_floor():
 		velocity += get_gravity() * delta

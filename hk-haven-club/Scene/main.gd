@@ -56,3 +56,7 @@ func spawn_ant() -> void:
 
 func _on_button_button_down() -> void:
 	menu.visible = false
+
+
+func _on_retry_button_down() -> void:
+	first4Enemy = 0

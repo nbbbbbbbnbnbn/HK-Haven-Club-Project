@@ -3,6 +3,10 @@ extends Area2D
 @export var sugar_restore_amount: float = 25.0
 @onready var player: CharacterBody2D = $"../Player" # Adjust path if needed to point to your player node
 
+func _process(_delta: float) -> void:
+	if player.reset:
+		queue_free()
+
 func _on_body_entered(body: Node2D) -> void:
 	# Check if the player entered the sugar cube area
 	if body.is_in_group("player") or body.name == "Player":
