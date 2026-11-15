@@ -3,13 +3,16 @@ extends Node2D
 # Preload your enemy scene so we can spawn copies of it
 @export var enemy_scene: PackedScene = preload("res://Scene/enemy.tscn")
 
+@onready var player = $Player
 @onready var timer: Timer = $SpawnTimer
 @onready var first4Enemy: = 0
+@onready var menu = $CanvasLayer/Menu
 
 func _ready() -> void:
 	# Randomize the random number generator seed
 	randomize()
 	start_spawn_timer()
+	menu.visible = true
 
 
 func start_spawn_timer() -> void:
@@ -49,3 +52,7 @@ func spawn_ant() -> void:
 	
 	# Add the ant as a child of the Main scene
 	get_tree().current_scene.add_child(ant)
+
+
+func _on_button_button_down() -> void:
+	menu.visible = false
