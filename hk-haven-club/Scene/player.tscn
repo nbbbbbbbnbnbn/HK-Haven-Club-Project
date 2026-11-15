@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://da7digmk53h28"]
+[gd_scene load_steps=24 format=3 uid="uid://da7digmk53h28"]
 
 [ext_resource type="Script" uid="uid://4nf8dbmxm5rm" path="res://Scene/player.gd" id="1_y8w33"]
 [ext_resource type="Texture2D" uid="uid://dc76padgmyjty" path="res://Assets/roly_poly_left.png" id="2_xa75v"]
 [ext_resource type="Texture2D" uid="uid://2k4741cqfrnt" path="res://Assets/rolypolyRight.png" id="2_y8w33"]
 [ext_resource type="Texture2D" uid="uid://dchynu33u5wep" path="res://Assets/roly_poly_roll_left.png" id="4_58ae2"]
 [ext_resource type="Texture2D" uid="uid://crkshhdgkeira" path="res://Assets/roly_poly_roll_right.png" id="5_ivevv"]
+[ext_resource type="Script" uid="uid://byepm7sg1jr6x" path="res://Scene/progress_bar.gd" id="6_r6jsd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ivevv"]
 atlas = ExtResource("2_xa75v")
@@ -133,7 +134,7 @@ script = ExtResource("1_y8w33")
 position = Vector2(1.8422397, -5.5267196)
 sprite_frames = SubResource("SpriteFrames_ivevv")
 animation = &"roll right"
-frame_progress = 0.77993363
+frame_progress = 0.5804762
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5707964
@@ -155,6 +156,18 @@ position = Vector2(48.81936, 0)
 rotation = -1.5707964
 scale = Vector2(8.727193, 8.727193)
 mesh = SubResource("PrismMesh_y8w33")
+
+[node name="Charge bar" type="ProgressBar" parent="Node2D"]
+offset_left = 31.315298
+offset_top = 7.7732973
+offset_right = 347.31543
+offset_bottom = 102.7733
+scale = Vector2(0.070740454, 0.074924335)
+min_value = 300.0
+max_value = 1500.0
+value = 300.0
+show_percentage = false
+script = ExtResource("6_r6jsd")
 
 [node name="Hitbox" type="Area2D" parent="."]
 

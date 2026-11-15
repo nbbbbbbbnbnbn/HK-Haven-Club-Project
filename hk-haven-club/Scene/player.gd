@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var roll_acceleration: float = 1900.0 # Much higher acceleration for faster rolling
 @export var launch_cooldown: float = 5.0     # 5 seconds cooldown for the launch
 @export var drain_rate:float = 5.0
+@export var sugarEaten = 0
 
 @export var default_max_launch_power: float = 1500.0
 @export var default_charge_speed: float = 1200.0
@@ -15,31 +16,64 @@ extends CharacterBody2D
 # Speed threshold required to deal damage and bounce off enemies
 @export var impact_speed_threshold: float = 600.0 
 @export var bounce_power: float = -1000.0     # Upward bounce velocity when slamming an enemy
+@export var tutorialDone: bool = false
 
+@onready var haveFun: Label = $"../CanvasLayer/Control/HaveFun"
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var arrow: Node2D = $Node2D
-@onready var sugarBar: ProgressBar = $"../CanvasLayer/Control/ProgressBar"
+@onready var sugarBar: ProgressBar = $"../CanvasLayer/Control/Sugar meter"
 @onready var gameOverScreen: Control = $"../CanvasLayer/Control/Game over screen"
+@onready var launch_bar: ProgressBar = $"Node2D/Charge bar" # Reference to your charge bar
+@onready var cooldown_bar: ProgressBar = $"../CanvasLayer/Control/Cooldown node/Cooldown"
+@onready var cooldown_node: Control = $"../CanvasLayer/Control/Cooldown node"
+@onready var sugar_meter: ProgressBar = $"../CanvasLayer/Control/Sugar meter" # Make sure path matches your node name!
+var sugar_meter_original_position: Vector2
 
 @export var is_curled: bool = false
 var is_charging: bool = false
 var current_launch_power: float = 0.0
 var cooldown_timer: float = 0.0
 var has_hit_enemy_this_jump: bool = false # Tracks if you successfully comboed
+var teleported: bool = false
 
 func _ready() -> void:
+	
+	haveFun.visible = false
+	
+	if sugar_meter:
+		sugar_meter_original_position = sugar_meter.position
 	gameOverScreen.visible = false
-	position.x = 681.0
-	position.y = 569.0
+	if launch_bar:
+		launch_bar.visible = false # Hide charge bar initially
+	position.x = 22959.0
+	position.y = 1003.0
+	cooldown_node.visible = false
+	
 
 func _physics_process(delta: float) -> void:
 	
-	sugarBar.value -= drain_rate * delta
+	if not teleported and sugarEaten >= 1:
+		position.x = -645.0
+		position.y = 215.0
+		velocity = Vector2.ZERO  # <-- THIS FIXES THE STUCK IN AIR ISSUE!
+		teleported = true        # <-- Make sure this flag prevents it from running every frame
+		havefunFunc()
+		
+
+	
+	if tutorialDone:
+		sugarBar.value -= drain_rate * delta
+	
+	if position.x >= 26403.0:
+		tutorialDone = true
 	
 	if sugarBar.value > 0:
 		# Decrease the cooldown timer every frame if it's running
 		if cooldown_timer > 0:
 			cooldown_timer -= delta
+			cooldown_bar.value -= delta
+		else:
+			cooldown_node.visible = false
 		
 		# 1. SPACEBAR: CURL / UN-CURL TOGGLE STATE
 		if Input.is_action_pressed("curl"):
@@ -48,6 +82,8 @@ func _physics_process(delta: float) -> void:
 			is_curled = false
 			is_charging = false
 			arrow.visible = false
+			if launch_bar:
+				launch_bar.visible = false
 		
 		# 2. LEFT CLICK CHARGING & LAUNCH (ONLY allowed if you are curled up!)
 		if is_curled:
@@ -57,6 +93,10 @@ func _physics_process(delta: float) -> void:
 					current_launch_power = min_launch_power
 					
 				arrow.visible = true
+				if launch_bar:
+					launch_bar.visible = true
+					launch_bar.value = current_launch_power # Update charge bar fill
+				
 				arrow.look_at(get_global_mouse_position())
 				
 				# Freeze movement while charging up your shot
@@ -67,6 +107,8 @@ func _physics_process(delta: float) -> void:
 				current_launch_power = min(current_launch_power, max_launch_power)
 			else:
 				arrow.visible = false
+				if launch_bar:
+					launch_bar.visible = false
 				
 				# If we WERE charging and just released the click, LAUNCH!
 				if is_charging:
@@ -78,10 +120,14 @@ func _physics_process(delta: float) -> void:
 					velocity = launch_dir * current_launch_power
 					
 					# Start the 5-second cooldown timer & reset combo tracking for this launch
+					cooldown_node.visible = true
 					cooldown_timer = launch_cooldown
+					cooldown_bar.value = 5
 					has_hit_enemy_this_jump = false 
 		else:
 			arrow.visible = false
+			if launch_bar:
+				launch_bar.visible = false
 			is_charging = false
 
 		# 3. STATE-BASED MOVEMENT & GRAVITY
@@ -158,3 +204,8 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			cooldown_timer = 0.0
 			max_launch_power *= 1.1
 			charge_speed *= 1.1
+
+func havefunFunc():
+	haveFun.visible = true
+	await get_tree().create_timer(2).timeout
+	haveFun.visible = false
