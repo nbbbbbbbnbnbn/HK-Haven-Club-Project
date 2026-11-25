@@ -6,10 +6,12 @@ extends CharacterBody2D
 
 var speed: float = 250.0
 var health: float = 100
+var tutorialEnemyPos = Vector2(27635.0, 1369.0)
 
 func _ready() -> void:
 	# Automatically add every spawned ant to the "enemies" group
 	add_to_group("enemies")
+	position = tutorialEnemyPos
 
 func _physics_process(delta: float) -> void:
 	if player.reset:

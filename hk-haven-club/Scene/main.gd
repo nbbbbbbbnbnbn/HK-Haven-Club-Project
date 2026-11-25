@@ -19,7 +19,7 @@ func start_spawn_timer() -> void:
 	# Pick a random wait time between 5 and 10 seconds
 	var random_time = 0.001
 	if first4Enemy > 4:
-		random_time = randf_range(2.0, 7.0)
+		random_time = randf_range(1.0, 3.0)
 	
 	# Configure and start the existing Timer node
 	timer.wait_time = random_time
@@ -36,6 +36,9 @@ func spawn_ant() -> void:
 	if not enemy_scene:
 		return
 		
+	if not player.tutorialDone:
+		return
+	
 	# Instantiate a new ant
 	var ant = enemy_scene.instantiate()
 	
@@ -44,7 +47,12 @@ func spawn_ant() -> void:
 		Vector2(5071.0, -821.0),
 		Vector2(-11807.0, 344.0),
 		Vector2(-4572.0, 349.0),
-		Vector2(2018.0, 441.0)
+		Vector2(2018.0, 441.0),
+		Vector2(-4344.0, 321.0),
+		Vector2(-6845.0, 283.0),
+		Vector2(-3219.0, -269.0),
+		Vector2(-2190.0, 411.0),
+		Vector2(382.0, 552.0)
 	]
 	
 	# Randomly pick one of the positions from the array

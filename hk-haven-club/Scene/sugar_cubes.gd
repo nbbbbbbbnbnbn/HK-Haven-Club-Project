@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var sugar_restore_amount: float = 25.0
+@export var sugar_restore_amount: float = 20.0
 @onready var player: CharacterBody2D = $"../Player" # Adjust path if needed to point to your player node
 
 func _process(_delta: float) -> void:

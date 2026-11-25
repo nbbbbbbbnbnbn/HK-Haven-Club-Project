@@ -301,7 +301,7 @@ tile_set = SubResource("TileSet_sblpm")
 position = Vector2(-645, 215.00002)
 
 [node name="Enemy" parent="." groups=["enemies"] instance=ExtResource("3_r34rm")]
-position = Vector2(27635, 1369)
+position = Vector2(382, 552)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -331,6 +331,7 @@ scale = Vector2(11.589893, 11.962932)
 texture = ExtResource("5_3amdw")
 
 [node name="Game over screen" type="Control" parent="CanvasLayer/Control"]
+visible = false
 z_index = 4
 anchors_preset = 0
 offset_right = 40.0
